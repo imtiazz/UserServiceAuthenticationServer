@@ -1,7 +1,6 @@
 package dev.sandeep.UserService.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.ManyToMany;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,7 +13,9 @@ import java.util.Set;
 public class User extends BaseModel {
     private String email;
     private String password;
-    @ManyToMany
+    @ManyToMany(fetch = FetchType.EAGER)
+//    @JoinTable(name = "ecom_user_roles",joinColumns = @JoinColumn(name="ecom_user_id"),
+//    inverseJoinColumns = @JoinColumn(name = "roles_id"))
     private Set<Role> roles = new HashSet<>();
 }
 /*
