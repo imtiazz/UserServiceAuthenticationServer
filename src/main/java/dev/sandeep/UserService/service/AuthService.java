@@ -28,12 +28,12 @@ import java.util.*;
 public class AuthService {
     private UserRepository userRepository;
     private SessionRepository sessionRepository;
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+   // private BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    public AuthService(UserRepository userRepository, SessionRepository sessionRepository, BCryptPasswordEncoder bCryptPasswordEncoder) {
+    public AuthService(UserRepository userRepository, SessionRepository sessionRepository) {
         this.userRepository = userRepository;
         this.sessionRepository = sessionRepository;
-        this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+        //this.bCryptPasswordEncoder = bCryptPasswordEncoder;
     }
 
     public ResponseEntity<List<Session>> getAllSession(){
@@ -53,9 +53,9 @@ public class AuthService {
         }
         User user = userOptional.get();
         //Verify the user password given at the time of login
-        if (!bCryptPasswordEncoder.matches(password, user.getPassword())) {
-            throw new InvalidCredentialException("Invalid Credentials");
-        }
+//        if (!bCryptPasswordEncoder.matches(password, user.getPassword())) {
+//            throw new InvalidCredentialException("Invalid Credentials");
+//        }
         //token generation
         //String token = RandomStringUtils.randomAlphanumeric(30);
         MacAlgorithm alg = Jwts.SIG.HS256; // HS256 algo added for JWT
@@ -104,7 +104,7 @@ public class AuthService {
     public UserDto signUp(String email, String password) {
         User user = new User();
         user.setEmail(email);
-        user.setPassword(bCryptPasswordEncoder.encode(password));
+        //user.setPassword(bCryptPasswordEncoder.encode(password));
         User savedUser = userRepository.save(user);
         return UserDto.from(savedUser);
     }
